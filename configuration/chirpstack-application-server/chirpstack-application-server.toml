@@ -14,5 +14,7 @@ server="tcp://mosquitto:1883"
 public_host="chirpstack-application-server:8001"
 
 [application_server.external_api]
-bind="0.0.0.0:8080"
+bind="0.0.0.0:443"
+tls_cert="/etc/letsencrypt/live/iotnetwork.mcci.com/cert.pem"
+tls_key="/etc/letsencrypt/live/iotnetwork.mcci.com/privkey.pem"
 jwt_secret="verysecret"

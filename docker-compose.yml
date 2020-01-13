@@ -2,18 +2,22 @@ version: "3"
 
 services:
   chirpstack-network-server:
+    restart: unless-stopped      
     image: chirpstack/chirpstack-network-server:3
     volumes:
       - ./configuration/chirpstack-network-server:/etc/chirpstack-network-server
 
   chirpstack-application-server:
+    restart: unless-stopped      
     image: chirpstack/chirpstack-application-server:3
     ports:
-      - 8080:8080
+      - 443:443
     volumes:
       - ./configuration/chirpstack-application-server:/etc/chirpstack-application-server
+      - "/etc/letsencrypt:/etc/letsencrypt"
 
   chirpstack-gateway-bridge:
+    restart: unless-stopped      
     image: chirpstack/chirpstack-gateway-bridge:3
     ports:
       - 1700:1700/udp
@@ -21,25 +25,39 @@ services:
       - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
 
   chirpstack-geolocation-server:
+    restart: unless-stopped      
     image: chirpstack/chirpstack-geolocation-server:3
     volumes:
       - ./configuration/chirpstack-geolocation-server:/etc/chirpstack-geolocation-server
 
   postgresql:
+    restart: unless-stopped      
     image: postgres:9.6-alpine
     volumes:
       - ./configuration/postgresql/initdb:/docker-entrypoint-initdb.d
       - postgresqldata:/var/lib/postgresql/data
 
   redis:
+    restart: unless-stopped      
     image: redis:5-alpine
     volumes:
       - redisdata:/data
 
   mosquitto:
-    image: eclipse-mosquitto
+    restart: unless-stopped
+    build:
+      context: ./mqtts
+      dockerfile: Dockerfile
+      args:
+        ssl_cert: "${TTN_NETWORK_CHIRPSTACK_FQDN:-.}"
     ports:
-      - 1883:1883
+      - "1883:1883"
+      - "8883:8883"
+      - "8083:8083"
+    volumes:
+      - "/etc/letsencrypt:/etc/letsencrypt"
+      - "${TTN_DASHBOARD_DATA}mqtt/credentials:/etc/mosquitto/credentials"
+    hostname: "${TTN_DASHBOARD_MQTT_HOST_NAME:-mqtt}"
 
 volumes:
   postgresqldata:
