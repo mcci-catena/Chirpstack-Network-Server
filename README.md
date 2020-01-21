@@ -49,7 +49,7 @@ To build the docker-compose.yml file, there are some variables required in the `
 
 ### Generate a Let's Encrypt Standalone SSL Certs to secure Apps
 ```bash
-certbot certonly --standalone -d IOT_NETWORK_CHIRPSTACK_FQDN> < --email <username@example.com>
+certbot certonly --standalone -d <IOT_NETWORK_CHIRPSTACK_FQDN> < --email <username@example.com>
 ```
 To start the ChirpStack open-source LoRaWAN Network Server stack, simply run:
 
