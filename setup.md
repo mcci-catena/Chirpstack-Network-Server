@@ -1,1 +1,1 @@
-testing(pics/1_add_network_server.png)
+[testing](pics/1_add_network_server.png)
