@@ -48,6 +48,8 @@ To build the docker-compose.yml file, there are some variables required in the `
    This will put all the data file for this instance as subdirectories of the specified path. If you leave this undefined, `docker-compose` will print error messages and quit.
 
 ### Generate a Let's Encrypt Standalone SSL Certs to secure Apps
+Initially the SSL certs are generated in localhost and then will be copied/linked to our container via `chirpstack-application-server/Dockerfile` file.
+
 ```bash
 certbot certonly --standalone -d <IOT_NETWORK_CHIRPSTACK_FQDN> < --email <username@example.com>
 ```
@@ -64,7 +66,7 @@ $ docker-compose up -d --build
 
 
 After all the components have been initialized and started, you should be able
-to open http://<IOT_NETWORK_CHIRPSTACK_FQDN>/ in your browser.
+to open https://<IOT_NETWORK_CHIRPSTACK_FQDN>/ in your browser.
 
 ### Add Network Server
 
