@@ -11,4 +11,3 @@ ARG ssl_cert
 RUN ln -sf /etc/letsencrypt/live/${ssl_cert}/cert.pem /etc/cert.pem
 RUN ln -sf /etc/letsencrypt/live/${ssl_cert}/chain.pem /etc/chain.pem
 RUN ln -sf /etc/letsencrypt/live/${ssl_cert}/privkey.pem /etc/privkey.pem
-
