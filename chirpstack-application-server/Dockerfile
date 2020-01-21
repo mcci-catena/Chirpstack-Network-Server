@@ -2,7 +2,6 @@
 # Dockerfile for building chirpstack-application-server with letsencrypt certs support
 #
 
-
 FROM chirpstack/chirpstack-application-server:3
 
 # passing arguments to map letsencrypt certs
