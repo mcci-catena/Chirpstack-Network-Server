@@ -9,12 +9,16 @@ services:
 
   chirpstack-application-server:
     restart: unless-stopped      
-    image: chirpstack/chirpstack-application-server:3
+    build:
+      context: ./chirpstack-application-server
+      dockerfile: Dockerfile
+      args:
+        ssl_cert: "${IOT_NETWORK_CHIRPSTACK_FQDN:-.}"
     ports:
       - 443:443
     volumes:
-      - ./configuration/chirpstack-application-server:/etc/chirpstack-application-server
       - "/etc/letsencrypt:/etc/letsencrypt"
+      - ./configuration/chirpstack-application-server:/etc/chirpstack-application-server
 
   chirpstack-gateway-bridge:
     restart: unless-stopped      
@@ -49,15 +53,15 @@ services:
       context: ./mqtts
       dockerfile: Dockerfile
       args:
-        ssl_cert: "${TTN_NETWORK_CHIRPSTACK_FQDN:-.}"
+        ssl_cert: "${IOT_NETWORK_CHIRPSTACK_FQDN:-.}"
     ports:
       - "1883:1883"
       - "8883:8883"
       - "8083:8083"
     volumes:
       - "/etc/letsencrypt:/etc/letsencrypt"
-      - "${TTN_DASHBOARD_DATA}mqtt/credentials:/etc/mosquitto/credentials"
-    hostname: "${TTN_DASHBOARD_MQTT_HOST_NAME:-mqtt}"
+      - "${IOT_NETWORK_DATA}mqtt/credentials:/etc/mosquitto/credentials"
+    hostname: "${IOT_NETWORK_MQTT_HOST_NAME:-mqtt}"
 
 volumes:
   postgresqldata:
