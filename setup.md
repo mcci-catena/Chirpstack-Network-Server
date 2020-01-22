@@ -1,3 +1,5 @@
+# ChirpStack - Configuring Network Server, Gateway and Device in Web-GUI
+
 1. Click "Network-servers" in the sidetab and add "network server" as below:
 
     ![testing](pics/1_add_network_server.png)
