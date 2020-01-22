@@ -68,8 +68,5 @@ $ docker-compose up -d --build
 After all the components have been initialized and started, you should be able
 to open https://<IOT_NETWORK_CHIRPSTACK_FQDN>/ in your browser.
 
-### Add Network Server
+### Refer `setup.md` for Configuring Network Server, Gateway and Device in Web-GUI
 
-When adding the Network Server in the ChirpStack Application Server web-interface
-(see [Network Servers](https://www.chirpstack.io/application-server/use/network-servers/)),
-you must enter `chirpstack-network-server:8000` as the Network Server.
