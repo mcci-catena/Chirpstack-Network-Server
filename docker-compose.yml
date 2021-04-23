@@ -3,7 +3,7 @@ version: "3"
 services:
   chirpstack-network-server:
     restart: unless-stopped      
-    image: chirpstack/chirpstack-network-server:3
+    image: chirpstack/chirpstack-network-server:latest
     volumes:
       - ./configuration/chirpstack-network-server:/etc/chirpstack-network-server
 
@@ -22,7 +22,7 @@ services:
 
   chirpstack-gateway-bridge:
     restart: unless-stopped      
-    image: chirpstack/chirpstack-gateway-bridge:3
+    image: chirpstack/chirpstack-gateway-bridge:latest
     ports:
       - 1700:1700/udp
     volumes:
@@ -30,39 +30,37 @@ services:
 
   chirpstack-geolocation-server:
     restart: unless-stopped      
-    image: chirpstack/chirpstack-geolocation-server:3
+    image: chirpstack/chirpstack-geolocation-server:latest
     volumes:
       - ./configuration/chirpstack-geolocation-server:/etc/chirpstack-geolocation-server
 
   postgresql:
     restart: unless-stopped      
     image: postgres:9.6-alpine
+    environment:
+      - POSTGRES_PASSWORD=Year2021CM
     volumes:
       - ./configuration/postgresql/initdb:/docker-entrypoint-initdb.d
-      - postgresqldata:/var/lib/postgresql/data
+      - ${IOT_NETWORK_DATA}postgresqldata:/var/lib/postgresql/data
 
   redis:
     restart: unless-stopped      
     image: redis:5-alpine
     volumes:
-      - redisdata:/data
-
+      - ${IOT_NETWORK_DATA}redisdata:/data
+  
   mosquitto:
     restart: unless-stopped
     build:
       context: ./mqtts
       dockerfile: Dockerfile
-      args:
-        ssl_cert: "${IOT_NETWORK_CHIRPSTACK_FQDN:-.}"
-    ports:
-      - "1883:1883"
-      - "8883:8883"
-      - "8083:8083"
+    environment:
+      ssl_cert: "${IOT_NETWORK_CHIRPSTACK_FQDN:-.}"
+    expose:
+      - 1883
+      - 8883
+      - 8083
     volumes:
       - "/etc/letsencrypt:/etc/letsencrypt"
       - "${IOT_NETWORK_DATA}mqtt/credentials:/etc/mosquitto/credentials"
     hostname: "${IOT_NETWORK_MQTT_HOST_NAME:-mqtt}"
-
-volumes:
-  postgresqldata:
-  redisdata:

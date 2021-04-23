@@ -4,8 +4,8 @@
 
 [integration.mqtt.auth.generic]
 servers=["tcp://mosquitto:1883"]
-username=""
-password=""
+username="mqtt"
+password="mqtt2021CM"
 
 [backend.basic_station]
 region="IN865"

@@ -6,7 +6,6 @@ FROM chirpstack/chirpstack-application-server:3
 
 # passing arguments to map letsencrypt certs
 ARG ssl_cert
-
 # Linking letsencrypt certiifcates
 RUN ln -sf /etc/letsencrypt/live/${ssl_cert}/cert.pem /etc/cert.pem
 RUN ln -sf /etc/letsencrypt/live/${ssl_cert}/chain.pem /etc/chain.pem
