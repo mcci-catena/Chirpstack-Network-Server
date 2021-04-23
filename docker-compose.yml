@@ -9,16 +9,10 @@ services:
 
   chirpstack-application-server:
     restart: unless-stopped      
-    build:
-      context: ./chirpstack-application-server
-      dockerfile: Dockerfile
-      args:
-        ssl_cert: "${IOT_NETWORK_CHIRPSTACK_FQDN:-.}"
-    ports:
-            #- 443:443
-      - 8080:8080
+    image: chirpstack/chirpstack-application-server:latest
+    expose:
+      - 8080
     volumes:
-      - "/etc/letsencrypt:/etc/letsencrypt"
       - ./configuration/chirpstack-application-server:/etc/chirpstack-application-server
 
   nginx:
@@ -33,9 +27,6 @@ services:
       - "${IOT_NETWORK_PORT_HTTPS:-443}:443"
     volumes:
       - "${IOT_NETWORK_DATA}docker-nginx/letsencrypt:/etc/letsencrypt"
-
-
-
 
   chirpstack-gateway-bridge:
     restart: unless-stopped      
@@ -62,7 +53,7 @@ services:
 
   redis:
     restart: unless-stopped      
-    image: redis:5-alpine
+    image: redis:latest
     volumes:
       - ${IOT_NETWORK_DATA}redisdata:/data
   
