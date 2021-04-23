@@ -15,10 +15,27 @@ services:
       args:
         ssl_cert: "${IOT_NETWORK_CHIRPSTACK_FQDN:-.}"
     ports:
-      - 443:443
+            #- 443:443
+      - 8080:8080
     volumes:
       - "/etc/letsencrypt:/etc/letsencrypt"
       - ./configuration/chirpstack-application-server:/etc/chirpstack-application-server
+
+  nginx:
+    environment:
+      CERTBOT_DOMAINS: "${IOT_NETWORK_CERTBOT_FQDN:-.}"
+      CERTBOT_EMAIL: "${IOT_NETWORK_CERTBOT_EMAIL:-.}"
+      NGINX_FQDN: "${IOT_NETWORK_NGINX_FQDN:-.}"
+    restart: unless-stopped
+    build: nginx
+    ports:
+      - "${IOT_NETWORK_PORT_HTTP:-80}:80"
+      - "${IOT_NETWORK_PORT_HTTPS:-443}:443"
+    volumes:
+      - "${IOT_NETWORK_DATA}docker-nginx/letsencrypt:/etc/letsencrypt"
+
+
+
 
   chirpstack-gateway-bridge:
     restart: unless-stopped      

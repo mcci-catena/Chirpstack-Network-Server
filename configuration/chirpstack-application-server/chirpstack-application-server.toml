@@ -16,7 +16,8 @@ password="mqtt2021CM"
 public_host="chirpstack-application-server:8001"
 
 [application_server.external_api]
-bind="0.0.0.0:443"
-tls_cert="/etc/cert.pem"
-tls_key="/etc/privkey.pem"
+#bind="0.0.0.0:443"
+bind="0.0.0.0:8080"
+#tls_cert="/etc/cert.pem"
+#tls_key="/etc/privkey.pem"
 jwt_secret="verysecret"
