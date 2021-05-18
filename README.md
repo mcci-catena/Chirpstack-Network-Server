@@ -8,16 +8,16 @@ but keep in mind that for production usage it might need modifications.
 
 ## Directory layout
 
-* `docker-compose.yml`: the docker-compose file containing the services
-* `docker-compose-env.yml`: alternate docker-compose file using environment variables, can be run with the docker-compose `-f` flag
-* `configuration/chirpstack*`: directory containing the ChirpStack configuration files, see:
+* `docker-compose.yml` : the docker-compose file containing the services
+* `docker-compose-env.yml` : alternate docker-compose file using environment variables, can be run with the docker-compose `-f` flag
+* `configuration/chirpstack*` : directory containing the ChirpStack configuration files, see:
     * https://www.chirpstack.io/gateway-bridge/install/config/
     * https://www.chirpstack.io/network-server/install/config/
     * https://www.chirpstack.io/application-server/install/config/
     * https://www.chirpstack.io/geolocation-server/install/config/
-* `configuration/postgresql/initdb/`: directory containing PostgreSQL initialization scripts
-* `mqtts`: directory containing the `Dockerfile` to build the `mosquitto` container and the configuration required for setting up `MQTT` channel.
-* `nginx` directory containing `Dockerfile` and `setup.sh` files required to build the `nginx` container. 
+* `configuration/postgresql/initdb/` : directory containing PostgreSQL initialization scripts
+* `mqtts` : directory containing the `Dockerfile` to build the `mosquitto` container and the configuration required for setting up `MQTT` channel.
+* `nginx` : directory containing `Dockerfile` and `setup.sh` files required to build the `nginx` container. 
 
 ## Configuration
 
@@ -35,6 +35,8 @@ PostgreSQL and Redis data is persisted in Docker volumes, see the `docker-compos
 
 Before using this `docker-compose.yml` file, make sure you have [Docker](https://www.docker.com/community-edition) and [Docker-composse](https://docs.docker.com/compose/install/ )
 installed.
+## ChirpStack architecture
+![Arch](pics/arch.png)
 ## Build Setup
 
 To build the docker-compose.yml file, there are some variables required in the `.env` file
@@ -51,13 +53,7 @@ To build the docker-compose.yml file, there are some variables required in the `
     The trailing slash is required!
    This will put all the data file for this instance as subdirectories of the specified path. If you leave this undefined, `docker-compose` will print error messages and quit.
 
-### Generate a Let's Encrypt Standalone SSL Certs to secure Apps
 
-Initially the SSL certs are generated in localhost and then will be copied/linked to our container via `chirpstack-application-server/Dockerfile` file.
-
-```bash
-certbot certonly --standalone -d <IOT_NETWORK_CHIRPSTACK_FQDN> < --email <username@example.com>
-```
 To start the ChirpStack open-source LoRaWAN Network Server stack, simply run:
 
 ```bash
@@ -91,9 +87,12 @@ To access mqtt channel, user needs credentials to access it.
 3. Close the connection to mqtts (Ctrl+D).
 
 After all the components have been initialized and started, you should be able
-to open <https://<IOT_NETWORK_NGINX_FQDN>/> in your browser.
+to open `https://<IOT_NETWORK_NGINX_FQDN>` in your browser.
 
 -   login with default username: `admin` and password: `admin`
 
 ### Refer ['setup.md'](./setup.md) for Configuring Network Server, Gateway and Device in Web-GUI
 
+# Referrence
+
+1. [ChirpStack Network Server](https://www.chirpstack.io)
