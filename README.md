@@ -22,7 +22,7 @@ but keep in mind that for production usage it might need modifications.
 ## Configuration
 
 The ChirpStack stack components are pre-configured to work with the provided
-`docker-compose.yml` file and defaults to the IN865 LoRaWAN band. Please refer
+`docker-compose.yml` file and defaults to the `*IN865* LoRaWAN band`. Please refer
 to the `configuration/chirpstack-network-server/examples` directory for more configuration
 examples.
 
