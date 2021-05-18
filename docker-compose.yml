@@ -63,11 +63,14 @@ services:
       context: ./mqtts
       dockerfile: Dockerfile
     environment:
-      ssl_cert: "${IOT_NETWORK_CHIRPSTACK_FQDN:-.}"
+      ssl_cert: "${IOT_NETWORK_CERTBOT_FQDN:-.}"
     expose:
       - 1883
       - 8883
       - 8083
+    ports:
+      - "1883:1883"
+      - "8883:8883"
     volumes:
       - "/etc/letsencrypt:/etc/letsencrypt"
       - "${IOT_NETWORK_DATA}mqtt/credentials:/etc/mosquitto/credentials"
