@@ -91,8 +91,55 @@ to open `https://<IOT_NETWORK_NGINX_FQDN>` in your browser.
 
 -   login with default username: `admin` and password: `admin`
 
+## MQTTS Examples
+
+Mqtts can be accessed in the following ways:
+
+Method  |  Hostname/Path | Port | Credentials
+--------|----------------|------|------------
+MQTT over TLS/SSL | myhost.example.com | 8883 | Username/Password come from mosquitto’s configuration (password_file)
+MQTT over TCP protocol (not secure so disabled for external access) | myhost.example.com | 1883 |Username/Password come from mosquitto’s configuration (password_file)
+
+### Test MQTT Channels
+
+- To test the `MQTT over TCP` and `MQTT over TLS/SSL` channels user can use [mosquitto client](https://mosquitto.org/download/) tool.
+
+  - MQTT over TCP
+
+      `Subscribing` mqtt channel on topic `test`
+
+      ```bash
+      mosquitto_sub -h myhost.example.com -t test -p 1883 -u user1 -P pwd123
+      
+      hello
+      ```
+
+      `publishing` on mqtt channel with topic `test`
+
+      ```bash
+      mosquitto_pub -h myhost.example.com -m "hello" -t test -p 1883 -u user1 -P pwd123
+      ```
+
+  - MQTT over TLS/SSL
+
+      `Subscribing` mqtt channel on topic `test`
+
+      ```bash
+      mosquitto_sub -h myhost.example.com -t test -p 8883 -u user1 -P pwd123 --capath /etc/ssl/certs/
+      
+      hello 
+      ```
+
+      `publishing` on mqtt channel with topic `test`
+
+      ```bash
+
+      mosquitto_pub -h myhost.example.com -m "hello" -t test -p 8883 -u user1 -P pwd123 --capath /etc/ssl/certs/
+      ```
+
+
 ### Refer ['setup.md'](./setup.md) for Configuring Network Server, Gateway and Device in Web-GUI
 
-# Referrence
+## Referrence
 
 1. [ChirpStack Network Server](https://www.chirpstack.io)
