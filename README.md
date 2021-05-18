@@ -1,4 +1,4 @@
-# ChirpStack Docker example
+# ChirpStack Network Server Docker example
 
 This repository contains a skeleton to setup the [ChirpStack](https://www.chirpstack.io)
 open-source LoRaWAN Network Server stack using [Docker Compose](https://docs.docker.com/compose/).
