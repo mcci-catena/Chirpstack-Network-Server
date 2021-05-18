@@ -37,12 +37,11 @@ set -- proxy-*.conf
 if [ "$1" != "proxy-*.conf" ] ; then
 	echo "add proxy-specs to configuration from:" "$@"
 	sed -e "s/@{FQDN}/${NGINX_FQDN}/g" "$@" > /tmp/proxyspecs.conf || exit 5
-	#sed -e '/listen 443 ssl;/r/tmp/proxyspecs.conf' /etc/nginx/sites-available/default  > /tmp/000-default-le-ssl-local.conf || exit 6
 	sed -e '/\(^[[:space:]].*\)try_files/r/tmp/proxyspecs.conf' /etc/nginx/sites-available/default  > /tmp/000-default-le-ssl-local.conf || exit 6
 	sed -i '/\(^[[:space:]].*\)try_files/d' /tmp/000-default-le-ssl-local.conf || exit 7
 	mv /tmp/000-default-le-ssl-local.conf /etc/nginx/sites-available || exit 7.1
 	echo "enable the modified site, and disable the ssl defaults"
-        rm -rf /etc/nginx/sites-enabled/default || echo exit 8
+        rm -rf /etc/nginx/sites-enabled/default || exit 8
         rm -rf /etc/nginx/sites-enabled/000-default-le-ssl-local.conf || exit 9
         ln -s /etc/nginx/sites-available/000-default-le-ssl-local.conf /etc/nginx/sites-enabled/000-default-le-ssl-local.conf || exit 10
 fi

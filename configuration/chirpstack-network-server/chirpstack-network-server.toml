@@ -45,8 +45,6 @@ name="IN_865_867"
 
 [network_server.gateway.backend.mqtt]
 server="tcp://mosquitto:1883"
-username="mqtt"
-password="mqtt2021CM"
 
 [join_server.default]
 server="http://chirpstack-application-server:8003"

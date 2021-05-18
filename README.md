@@ -16,6 +16,8 @@ but keep in mind that for production usage it might need modifications.
     * https://www.chirpstack.io/application-server/install/config/
     * https://www.chirpstack.io/geolocation-server/install/config/
 * `configuration/postgresql/initdb/`: directory containing PostgreSQL initialization scripts
+* `mqtts`: directory containing the `Dockerfile` to build the `mosquitto` container and the configuration required for setting up `MQTT` channel.
+* `nginx` directory containing `Dockerfile` and `setup.sh` files required to build the `nginx` container. 
 
 ## Configuration
 
@@ -41,13 +43,16 @@ To build the docker-compose.yml file, there are some variables required in the `
 
 1. Edit the `.env` file as follows:
 
-    1. `IOT_NETWORK_CHIRPSTACK_FQDN=myhost.example.com`
-    It must be a fully-qualified domain name (FQDN) that resolves to the IP address of the container host.
-    2. `IOT_NETWORK_DATA=./data/`
+    1. `IOT_NETWORK_CERTBOT_FQDN=myhost.example.com`
+    The domain(s) to be used by certbot when registering with Let's Encrypt.
+    2. `IOT_NETWORK_NGINX_FQDN=myhost.example.com` The fully-qualified domain name to be served by NGINX.
+    3. `IOT_NETWORK_CERTBOT_EMAIL=user@example.com` The email address to be used for registering with Let's Encrypt.
+    4. `IOT_NETWORK_DATA=/var/opt/docker/data/`
     The trailing slash is required!
    This will put all the data file for this instance as subdirectories of the specified path. If you leave this undefined, `docker-compose` will print error messages and quit.
 
 ### Generate a Let's Encrypt Standalone SSL Certs to secure Apps
+
 Initially the SSL certs are generated in localhost and then will be copied/linked to our container via `chirpstack-application-server/Dockerfile` file.
 
 ```bash
@@ -64,9 +69,31 @@ $ docker-compose up -d --build
 * ping database error, will retry in 2s: dial tcp 172.20.0.4:5432: connect: connection refused
 * ping database error, will retry in 2s: pq: the database system is starting up
 
+### Set up the `MQTT` User Credentials
+
+To access mqtt channel, user needs credentials to access it.
+
+1. Log into the `mosquitto` docker container.
+
+   ```console
+   $ docker-compose exec mosquitto /bin/bash
+   #
+   ```
+
+2. In the container, Create username and password using `mosquitto_passwd` command. ( option `-c` - Create a new password file. If the file already exists, it will be overwritten. so `-c` should be used for the first user creation. please avoid `-c` for the second user creation onwards. )
+
+   ```bash
+   # mosquitto_passwd -c /etc/mosquitto/credentials/passwd <user>
+   Password:
+   Reenter password:
+   ```
+
+3. Close the connection to mqtts (Ctrl+D).
 
 After all the components have been initialized and started, you should be able
-to open https://<IOT_NETWORK_CHIRPSTACK_FQDN>/ in your browser.
+to open <https://<IOT_NETWORK_NGINX_FQDN>/> in your browser.
 
-### Refer `setup.md` for Configuring Network Server, Gateway and Device in Web-GUI
+-   login with default username: `admin` and password: `admin`
+
+### Refer ['setup.md'](./setup.md) for Configuring Network Server, Gateway and Device in Web-GUI
 

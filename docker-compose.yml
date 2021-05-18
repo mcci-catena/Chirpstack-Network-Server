@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 services:
   chirpstack-network-server:
@@ -69,9 +69,8 @@ services:
       - 8883
       - 8083
     ports:
-      - "1883:1883"
       - "8883:8883"
     volumes:
-      - "/etc/letsencrypt:/etc/letsencrypt"
+      - "${IOT_NETWORK_DATA}docker-nginx/letsencrypt:/etc/letsencrypt"
       - "${IOT_NETWORK_DATA}mqtt/credentials:/etc/mosquitto/credentials"
-    hostname: "${IOT_NETWORK_MQTT_HOST_NAME:-mqtt}"
+    hostname: "${IOT_NETWORK_MQTT_HOST_NAME:-mosquitto}"
