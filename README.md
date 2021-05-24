@@ -140,6 +140,39 @@ MQTT over TCP protocol (not secure so disabled for external access) | myhost.exa
 
 ### Refer ['setup.md'](./setup.md) for Configuring Network Server, Gateway and Device in Web-GUI
 
+## Release History
+- HEAD has the following changes
+    - Getting Let's Encrypt cert via Nginx proxy and renewing it itself.
+    - created a separate `mosquitto` container where the Let's Encrypt certs were used to secure mqtt communication on port `8883`
+
+## Meta
+
+### Contributions
+
+This repository started from the ['brocaar/chirpstack-docker'](https://github.com/brocaar/chirpstack-docker) Chirpstack repository of commit [596df38fc64d40bf61af59a9c926893a78de24cd](https://github.com/brocaar/chirpstack-docker/commit/596df38fc64d40bf61af59a9c926893a78de24cd)
+
+- [@brocaar](https://github.com/brocaar) and [@bconway](https://github.com/bconway) did a lot of work on improving the Chirpstack server setup.
+- [@MuruganChandrasekar](https://github.com/MuruganChandrasekar) have added support to get Let's Encrypt cert via Nginx proxy and renew it itself. Also, created a separate `mosquitto` container where the Let's Encrypt certs were used to secure mqtt communication on port `8883`
+
+There are many others, who have contributed code and also participated in discussions, performed testing, reported problems and results. Thanks to all who have participated.
+
+### License
+This repository is released under the MIT license. Commercial licenses are also available from MCCI Corporation.
+
+### Trademark Acknowledgements
+
+LoRa is a registered trademark of Semtech Corporation. LoRaWAN is a registered trademark of the LoRa Alliance.
+
+MCCI and MCCI Catena are registered trademarks of MCCI Corporation.
+
+All other trademarks are the properties of their respective owners.
+
+### Support Open Source Hardware and Software
+
+MCCI invests time and resources providing this open source code, please support MCCI and open-source hardware by purchasing products from MCCI, Adafruit and other open-source hardware/software vendors!
+
+For information about MCCI's products, please visit [store.mcci.com](https://store.mcci.com/).
+
 ## Referrence
 
 1. [ChirpStack Network Server](https://www.chirpstack.io)
