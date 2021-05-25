@@ -5,18 +5,49 @@ open-source LoRaWAN Network Server stack using [Docker Compose](https://docs.doc
 
 **Note:** Please use this `docker-compose.yml` file as a starting point for testing but keep in mind that for production usage it might need modifications.
 
+## Table of Contents
+
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
+<!-- TOC depthFrom:2 updateOnSave:true -->
+
+- [Directory layout](#Directory-layout)
+- [Configuration](#Configuration)
+- [Data persistence](#Data-persistence)
+- [Requirements](#Requirements)
+- [ChirpStack architecture](#ChirpStack-architecture)
+- [Build Setup](#Build-Setup)
+  - [Create and edit the `.env` file](#Create-and-edit-the-`.env`-file)
+  - [Start the server](#Start-the-server)
+  - [Set up the `MQTT` User Credentials](#Set-up-the-`MQTT`-User-Credentials)
+- [MQTTS Examples](#MQTTS-Examples)
+  - [Test MQTT Channels](#Test-MQTT-Channels)
+- [Configuration via Web GUI](#Configuration-via-Web-GUI)
+- [Release History](#Release-History)
+- [Meta](#Meta)
+  - [Contributions](#Contributions)
+  - [License](#License)
+  - [Trademark Acknowledgements](#Trademark-Acknowledgements)
+  - [Support Open Source Hardware and Software](#Support-Open-Source-Hardware-and-Software)
+- [Reference](#Reference)
+
+<!-- /TOC -->
+<!-- markdownlint-restore -->
+<!-- Due to a bug in Markdown TOC, the table is formatted incorrectly if tab indentation is set other than 4. Due to another bug, this comment must be *after* the TOC entry. -->
+
 ## Directory layout
 
-* `docker-compose.yml` : the docker-compose file containing the services
-* `docker-compose-env.yml` : alternate docker-compose file using environment variables, can be run with the docker-compose `-f` flag
-* `configuration/chirpstack*` : directory containing the ChirpStack configuration files, see:
-  * <https://www.chirpstack.io/gateway-bridge/install/config/>
-  * <https://www.chirpstack.io/network-server/install/config/>
-  * <https://www.chirpstack.io/application-server/install/config/>
-  * <https://www.chirpstack.io/geolocation-server/install/config/>
-* `configuration/postgresql/initdb/` : directory containing PostgreSQL initialization scripts
-* `mqtts` : directory containing the `Dockerfile` to build the `mosquitto` container and the configuration required for setting up `MQTT` channel.
-* `nginx` : directory containing `Dockerfile` and a `setup.sh` file required to build the `nginx` container.
+- `docker-compose.yml` : the docker-compose file containing the services
+- `docker-compose-env.yml` : alternate docker-compose file using environment variables, can be run with the docker-compose `-f` flag
+- `configuration/chirpstack*` : directory containing the ChirpStack configuration files, see:
+  - <https://www.chirpstack.io/gateway-bridge/install/config/>
+  - <https://www.chirpstack.io/network-server/install/config/>
+  - <https://www.chirpstack.io/application-server/install/config/>
+  - <https://www.chirpstack.io/geolocation-server/install/config/>
+- `configuration/postgresql/initdb/` : directory containing PostgreSQL initialization scripts
+- `mqtts` : directory containing the `Dockerfile` to build the `mosquitto` container and the configuration required for setting up `MQTT` channel.
+- `nginx` : directory containing `Dockerfile` and a `setup.sh` file required to build the `nginx` container.
 
 ## Configuration
 
@@ -60,8 +91,8 @@ docker-compose up -d --build
 
 **Note:** during the startup of services, it is normal to see the following errors:
 
-* ping database error, will retry in 2s: dial tcp 172.20.0.4:5432: connect: connection refused
-* ping database error, will retry in 2s: pq: the database system is starting up
+- ping database error, will retry in 2s: dial tcp 172.20.0.4:5432: connect: connection refused
+- ping database error, will retry in 2s: pq: the database system is starting up
 
 ### Set up the `MQTT` User Credentials
 
@@ -86,7 +117,7 @@ To access mqtt channel, user needs credentials to access it.
 
 After all the components have been initialized and started, you should be able to open `https://<IOT_NETWORK_NGINX_FQDN>` in your browser.
 
-* login with default username: `admin` and password: `admin`
+- login with default username: `admin` and password: `admin`
 
 ## MQTTS Examples
 
@@ -99,9 +130,9 @@ MQTT over TCP protocol (not secure so disabled for external access) | myhost.exa
 
 ### Test MQTT Channels
 
-* To test the `MQTT over TCP` and `MQTT over TLS/SSL` channels user can use [mosquitto client](https://mosquitto.org/download/) tool.
+- To test the `MQTT over TCP` and `MQTT over TLS/SSL` channels user can use [mosquitto client](https://mosquitto.org/download/) tool.
 
-  * MQTT over TCP
+  - MQTT over TCP
 
       `Subscribing` mqtt channel on topic `test`
 
@@ -117,7 +148,7 @@ MQTT over TCP protocol (not secure so disabled for external access) | myhost.exa
       mosquitto_pub -h myhost.example.com -m "hello" -t test -p 1883 -u user1 -P pwd123
       ```
 
-  * MQTT over TLS/SSL
+  - MQTT over TLS/SSL
 
       `Subscribing` mqtt channel on topic `test`
 
@@ -134,16 +165,16 @@ MQTT over TCP protocol (not secure so disabled for external access) | myhost.exa
       mosquitto_pub -h myhost.example.com -m "hello" -t test -p 8883 -u user1 -P pwd123 --capath /etc/ssl/certs/
       ```
 
-### Configuration via Web GUI
+## Configuration via Web GUI
 
 Refer to [`setup.md`](./setup.md) for instructions on configuring Network Server, Gateway and Device in the web GUI.
 
 ## Release History
 
-* HEAD has the following changes
+- HEAD has the following changes
 
-  * Getting Let's Encrypt cert via Nginx proxy and renewing it itself.
-  * created a separate `mosquitto` container where the Let's Encrypt certs were used to secure mqtt communication on port `8883`
+  - Getting Let's Encrypt cert via Nginx proxy and renewing it itself.
+  - created a separate `mosquitto` container where the Let's Encrypt certs were used to secure mqtt communication on port `8883`
 
 ## Meta
 
@@ -151,9 +182,9 @@ Refer to [`setup.md`](./setup.md) for instructions on configuring Network Server
 
 This repository started from the ['brocaar/chirpstack-docker'](https://github.com/brocaar/chirpstack-docker) Chirpstack repository of commit [596df38fc64d40bf61af59a9c926893a78de24cd](https://github.com/brocaar/chirpstack-docker/commit/596df38fc64d40bf61af59a9c926893a78de24cd)
 
-* [@brocaar](https://github.com/brocaar) and [@bconway](https://github.com/bconway) did the initial implementation.
-* There are many others, who have contributed code and also participated in discussions, performed testing, reported problems and results. Thanks to all who have participated.
-* In this project, [@MuruganChandrasekar](https://github.com/MuruganChandrasekar) added support to get Let's Encrypt cert via Nginx proxy and renew it itself. Also, created a separate `mosquitto` container where the Let's Encrypt certs were used to secure mqtt communication on port `8883`
+- [@brocaar](https://github.com/brocaar) and [@bconway](https://github.com/bconway) did the initial implementation.
+- There are many others, who have contributed code and also participated in discussions, performed testing, reported problems and results. Thanks to all who have participated.
+- In this project, [@MuruganChandrasekar](https://github.com/MuruganChandrasekar) added support to get Let's Encrypt cert via Nginx proxy and renew it itself. Also, created a separate `mosquitto` container where the Let's Encrypt certs were used to secure mqtt communication on port `8883`
 
 ### License
 
